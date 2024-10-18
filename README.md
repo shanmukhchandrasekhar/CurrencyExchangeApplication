@@ -26,8 +26,7 @@ Ensure you have the following installed:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/currency-exchange-calculator.git
-    cd currency-exchange-calculator
+    https://github.com/shanmukhchandrasekhar/CurrencyExchangeApplication.git
     ```
 
 2. Set up your local environment by adding the API key, url and port for currency exchange in `src/main/resources/application.properties`:
