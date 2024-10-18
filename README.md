@@ -5,7 +5,6 @@ This project is a Spring Boot application that calculates currency conversion ba
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
-- [Running the Application](#running-the-application)
 - [Running Tests](#running-tests)
 - [Generating Coverage Reports](#generating-coverage-reports)
 - [Endpoints](#endpoints)
@@ -17,10 +16,9 @@ This project is a Spring Boot application that calculates currency conversion ba
 ## Prerequisites
 
 Ensure you have the following installed:
-- **Java 11 or higher**
+- **Java 8 or higher**
 - **Maven 3.6 or higher**
 - **An IDE (e.g., IntelliJ IDEA, Eclipse)** or command line for running the application
-- **API Key for currency exchange** (You can set it in `src/main/resources/application.properties`)
 
 ---
 
@@ -33,19 +31,36 @@ Ensure you have the following installed:
     cd currency-exchange-calculator
     ```
 
-2. Set up your local environment by adding the API key for currency exchange in `src/main/resources/application.properties`:
+2. Set up your local environment by adding the API key, url and port for currency exchange in `src/main/resources/application.properties`:
 
     ```properties
     currency.exchange.api.key=your_api_key_here
+    server.port=9091
+    currency.exchange.api.url=https://open.er-api.com
+     currency.exchange.api.key=your-api-key
     ```
-
-    Replace `your_api_key_here` with your actual API key.
 
 ---
 
-## Running the Application
+## Running Tests
 
-To start the Spring Boot application, use the following Maven command:
+To run the test cases, use Maven:
 
 ```bash
-mvn spring-boot:run
+mvn test
+```
+---
+
+## Generating Coverage Reports
+To generate code coverage reports, follow these steps:
+
+Run the following command to execute the tests and generate the coverage report:
+```bash
+mvn clean test jacoco:report
+```
+After the tests are complete, you can find the code coverage report at:
+```bash
+target/site/jacoco/index.html
+```
+
+---
