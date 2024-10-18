@@ -4,5 +4,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CurrencyConversionService {
-    public double converCurrency(String originalCurrency, String targetCurrency, double discountedAmount);
+    double converCurrency(String originalCurrency, String targetCurrency, double discountedAmount);
 }

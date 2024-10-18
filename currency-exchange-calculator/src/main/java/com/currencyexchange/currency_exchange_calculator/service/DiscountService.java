@@ -8,5 +8,5 @@ import java.util.List;
 
 @Service
 public interface DiscountService {
-    public double calculateDiscountedAmount(UserType userType, boolean isGroceries, double billAmount, int tenure, List<Item> items);
+    double calculateDiscountedAmount(UserType userType, boolean isGroceries, double billAmount, int tenure, List<Item> items);
 }

@@ -1,6 +1,6 @@
 package com.currencyexchange.currency_exchange_calculator.model;
 
-import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
