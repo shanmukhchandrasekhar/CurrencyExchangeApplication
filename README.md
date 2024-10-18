@@ -106,7 +106,7 @@ target/site/jacoco/index.html
   "rates": {
     "INR": 80.0,
     "EUR": 0.85,
-    ...
+    
   },
   "base": "USD",
   "date": "2023-10-16"
@@ -125,3 +125,8 @@ Tests for Services: Includes tests for discount calculations and currency conver
 Mocking and Test Utilities: Uses Mockito for mocking dependencies like external APIs.
 -**src/main/resources**: Contains application configuration files like application.properties.
 application.properties: Includes configuration settings such as API keys, port configurations, etc.
+
+
+<img width="400" alt="image" src="https://github.com/user-attachments/assets/b20fbfb3-c42d-47cc-a613-a3bf5f801ad0">
+                                            
+
