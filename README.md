@@ -125,3 +125,51 @@ Tests for Services: Includes tests for discount calculations and currency conver
 Mocking and Test Utilities: Uses Mockito for mocking dependencies like external APIs.
 -**src/main/resources**: Contains application configuration files like application.properties.
 application.properties: Includes configuration settings such as API keys, port configurations, etc.
+
+
+currency-exchange-calculator/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── currencyexchange/
+│   │   │           ├── config/
+│   │   │           │   └── SecurityConfig.java            
+│   │   │           ├── controller/
+│   │   │           │   └── BillController.java            
+│   │   │           ├── exception/
+│   │   │           │   └── CurrencyConversionException.java
+│   │   │           │   ├── GlobalExceptionHandler.java
+│   │   │           │   ├── UserNotFoundException.java
+│   │   │           ├── model/
+│   │   │           │   ├── BillDetails.java 
+│   │   │           │   ├── Item.java
+│   │   │           │   ├── StatusResponse.java
+│   │   │           │   ├── UserType.java
+│   │   │           │   └── ExchangeRateResponse.java      
+│   │   │           ├── service/
+│   │   │           │   ├── CurrencyConversionService.java 
+│   │   │           │   ├── CurrencyConversionServiceImpl.java 
+│   │   │           │   ├── DiscountService.java           
+│   │   │           │   └── DiscountServiceImpl.java       
+│   │   │           ├── client/
+│   │   │           │   └── ExchangeRateClient.java       
+│   │   │           └── CurrencyExchangeCalculatorApplication.java 
+│   │   └── resources/
+│   │       ├── application.properties                    
+│   │       └── templates/                                 
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── currencyexchange/
+│                   ├── service/
+│                   │   ├── CurrencyConversionServiceTest.java 
+│                   │   └── DiscountServiceTest.java       
+│                   └── controller/
+│                   │    └── BillControllerTest.java    
+│                   ├── CurrencyExchangeCalculatorApplicationTests.java
+├── target/                                               
+├── .gitignore                                          
+├── pom.xml                                             
+└── README.md                                            
+
