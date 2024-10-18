@@ -127,6 +127,6 @@ Mocking and Test Utilities: Uses Mockito for mocking dependencies like external 
 application.properties: Includes configuration settings such as API keys, port configurations, etc.
 
 
-<img width="306" alt="image" src="https://github.com/user-attachments/assets/b20fbfb3-c42d-47cc-a613-a3bf5f801ad0">
+<img width="350" alt="image" src="https://github.com/user-attachments/assets/b20fbfb3-c42d-47cc-a613-a3bf5f801ad0">
                                             
 
