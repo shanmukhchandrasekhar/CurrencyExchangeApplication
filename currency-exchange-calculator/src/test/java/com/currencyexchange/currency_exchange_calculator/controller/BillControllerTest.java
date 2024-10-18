@@ -22,8 +22,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BillController.class)
 public class BillControllerTest {
@@ -56,13 +55,13 @@ public class BillControllerTest {
                         .content(new ObjectMapper().writeValueAsString(billDetails))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("SUCCESS"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data").value(33000.0));
+                .andExpect(jsonPath("$.status").value("SUCCESS"))
+                .andExpect(jsonPath("$.data").value(33000.0));
     }
 
     @Test
     @WithMockUser(username = "user", roles = "USER")
-    public void testInvalidRequestExceptionHandling() throws Exception {
+    public void testInvalidRequestExceptionHandling1() throws Exception {
         BillDetails invalidBillDetails = new BillDetails();
         invalidBillDetails.setTotalAmount(500.0);
         invalidBillDetails.setUserType(UserType.EMPLOYEE);
@@ -72,13 +71,16 @@ public class BillControllerTest {
         invalidBillDetails.setItems(List.of(new Item("Apple", "groceries", 100.0)));
         when(discountService.calculateDiscountedAmount(any(), anyBoolean(), anyDouble(), anyInt(), anyList()))
                 .thenThrow(new IllegalArgumentException("Invalid discount parameters"));
-
         mockMvc.perform(post("/api/calculate")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(invalidBillDetails))
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Invalid request: Invalid discount parameters"));
+                .andExpect(jsonPath("$.status").value("ERROR"))
+                .andExpect(jsonPath("$.message").value("Invalid request: Invalid discount parameters"))
+                .andExpect(jsonPath("$.payableAmount").doesNotExist());
     }
+
+
 
 }

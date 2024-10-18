@@ -21,7 +21,7 @@ public class BillController {
     private CurrencyConversionService currencyConversionService;
 
     @PostMapping("/calculate")
-    public ResponseEntity<?> calculatePaybleAmount(@RequestBody BillDetails billDetails) {
+    public ResponseEntity<StatusResponse> calculatePaybleAmount(@RequestBody BillDetails billDetails) {
         try {
             double totalBill = billDetails.getTotalAmount();
             boolean isGroceries = billDetails.getItems().stream()
@@ -29,10 +29,10 @@ public class BillController {
             double discountedAmount = discountService.calculateDiscountedAmount(billDetails.getUserType(), isGroceries, totalBill, billDetails.getTenure(), billDetails.getItems());
             double payableAmount = currencyConversionService.converCurrency(billDetails.getOriginalCurrency(), billDetails.getTargetCurrency(), discountedAmount);
 
-            StatusResponse response = new StatusResponse("SUCCESS", payableAmount);
+            StatusResponse response = new StatusResponse("SUCCESS", payableAmount, null);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException ex) {
-            return ResponseEntity.badRequest().body("Invalid request: " + ex.getMessage());
+            return ResponseEntity.badRequest().body( new StatusResponse("ERROR", null, "Invalid request: " + ex.getMessage()));
         }
     }
 }

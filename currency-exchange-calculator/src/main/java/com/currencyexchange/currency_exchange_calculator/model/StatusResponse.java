@@ -11,4 +11,11 @@ public class StatusResponse {
 
     private String status;
     private Double data;
+    private String message;
+
+    public StatusResponse(String status, String message) {
+    }
+
+    public StatusResponse(String status, Double data) {
+    }
 }
