@@ -64,3 +64,24 @@ target/site/jacoco/index.html
 ```
 
 ---
+
+## Endpoints
+
+### 1. Calculate Payable Amount
+- **URL**: `/api/calculate`
+- **Method**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "userType": "CUSTOMER",
+    "totalAmount": 200.0,
+    "tenure": 3,
+    "originalCurrency": "USD",
+    "targetCurrency": "INR",
+    "items": [
+      {"name": "product1", "category": "electronics"},
+      {"name": "product2", "category": "furniture"}
+    ]
+  }
+```
+**Response**
