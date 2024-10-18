@@ -127,49 +127,6 @@ Mocking and Test Utilities: Uses Mockito for mocking dependencies like external 
 application.properties: Includes configuration settings such as API keys, port configurations, etc.
 
 
-currency-exchange-calculator/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── currencyexchange/
-│   │   │           ├── config/
-│   │   │           │   └── SecurityConfig.java            
-│   │   │           ├── controller/
-│   │   │           │   └── BillController.java            
-│   │   │           ├── exception/
-│   │   │           │   └── CurrencyConversionException.java
-│   │   │           │   ├── GlobalExceptionHandler.java
-│   │   │           │   ├── UserNotFoundException.java
-│   │   │           ├── model/
-│   │   │           │   ├── BillDetails.java 
-│   │   │           │   ├── Item.java
-│   │   │           │   ├── StatusResponse.java
-│   │   │           │   ├── UserType.java
-│   │   │           │   └── ExchangeRateResponse.java      
-│   │   │           ├── service/
-│   │   │           │   ├── CurrencyConversionService.java 
-│   │   │           │   ├── CurrencyConversionServiceImpl.java 
-│   │   │           │   ├── DiscountService.java           
-│   │   │           │   └── DiscountServiceImpl.java       
-│   │   │           ├── client/
-│   │   │           │   └── ExchangeRateClient.java       
-│   │   │           └── CurrencyExchangeCalculatorApplication.java 
-│   │   └── resources/
-│   │       ├── application.properties                    
-│   │       └── templates/                                 
-│   └── test/
-│       └── java/
-│           └── com/
-│               └── currencyexchange/
-│                   ├── service/
-│                   │   ├── CurrencyConversionServiceTest.java 
-│                   │   └── DiscountServiceTest.java       
-│                   └── controller/
-│                   │    └── BillControllerTest.java    
-│                   ├── CurrencyExchangeCalculatorApplicationTests.java
-├── target/                                               
-├── .gitignore                                          
-├── pom.xml                                             
-└── README.md                                            
+<img width="306" alt="image" src="https://github.com/user-attachments/assets/b20fbfb3-c42d-47cc-a613-a3bf5f801ad0">
+                                            
 
