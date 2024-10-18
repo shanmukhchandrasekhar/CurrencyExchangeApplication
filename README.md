@@ -8,7 +8,6 @@ This project is a Spring Boot application that calculates currency conversion ba
 - [Running Tests](#running-tests)
 - [Generating Coverage Reports](#generating-coverage-reports)
 - [Endpoints](#endpoints)
-- [Exception Handling](#exception-handling)
 - [Project Structure](#project-structure)
 
 ---
@@ -83,5 +82,47 @@ target/site/jacoco/index.html
       {"name": "product2", "category": "furniture"}
     ]
   }
+  ```
+  
+  #### Authentication:
+- **Username**: `user`
+- **Password**: `password`
+- **Role**: `USER`
+  
+- **Response**:
+```json
+{
+    "status": "Success",
+    "data": 10931.99835
+}
+
 ```
-**Response**
+
+### Currency Conversion (Internal API for Exchange Rates)
+- **URL**: `/v6/latest/{base_currency}`
+- **Method**: `GET`
+- **Response**:
+```json
+{
+  "rates": {
+    "INR": 80.0,
+    "EUR": 0.85,
+    ...
+  },
+  "base": "USD",
+  "date": "2023-10-16"
+}
+
+
+```
+
+### Project Structure
+- **src/main/java**: Contains the main code including controllers, services, and exception handling.
+Controllers: Handles API requests.
+Services: Contains business logic for discount calculations and currency conversion.
+Exception Handling: Custom exceptions like CurrencyConversionException and UserNotFoundException.
+-**src/test/java**: Contains the unit test cases for the application logic.
+Tests for Services: Includes tests for discount calculations and currency conversions.
+Mocking and Test Utilities: Uses Mockito for mocking dependencies like external APIs.
+-**src/main/resources**: Contains application configuration files like application.properties.
+application.properties: Includes configuration settings such as API keys, port configurations, etc.
