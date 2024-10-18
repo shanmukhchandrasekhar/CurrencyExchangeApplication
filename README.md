@@ -106,7 +106,7 @@ target/site/jacoco/index.html
   "rates": {
     "INR": 80.0,
     "EUR": 0.85,
-    ...
+    
   },
   "base": "USD",
   "date": "2023-10-16"
