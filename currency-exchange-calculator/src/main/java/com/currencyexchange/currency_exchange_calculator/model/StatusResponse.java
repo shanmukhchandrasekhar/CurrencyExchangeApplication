@@ -18,4 +18,5 @@ public class StatusResponse {
 
     public StatusResponse(String status, Double data) {
     }
+
 }

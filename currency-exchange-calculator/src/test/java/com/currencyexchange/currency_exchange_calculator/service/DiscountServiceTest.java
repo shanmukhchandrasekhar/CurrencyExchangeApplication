@@ -1,6 +1,7 @@
 package com.currencyexchange.currency_exchange_calculator.service;
 
 import com.currencyexchange.currency_exchange_calculator.exception.UserNotFoundException;
+import com.currencyexchange.currency_exchange_calculator.model.BillDetails;
 import com.currencyexchange.currency_exchange_calculator.model.Item;
 import com.currencyexchange.currency_exchange_calculator.model.UserType;
 import com.currencyexchange.currency_exchange_calculator.service.DiscountService;
@@ -19,63 +20,79 @@ public class DiscountServiceTest {
     @Autowired
     private DiscountService discountService;
 
+    private BillDetails createBillDetails(UserType userType, double totalAmount, int tenure, List<Item> items) {
+        BillDetails billDetails = new BillDetails();
+        billDetails.setUserType(userType);
+        billDetails.setTotalAmount(totalAmount);
+        billDetails.setTenure(tenure);
+        billDetails.setItems(items);
+        billDetails.setOriginalCurrency("USD");
+        billDetails.setTargetCurrency("INR");
+        return billDetails;
+    }
+
     @Test
     public void testEmployeeDiscount() {
-        List<Item> items = List.of(new Item("product", "electronics"));
-        double result = discountService.calculateDiscountedAmount(UserType.EMPLOYEE, false, 200.0, 3, items);
+        BillDetails billDetails = createBillDetails(UserType.EMPLOYEE, 200.0, 3, List.of(new Item("product", "electronics")));
+        double result = discountService.calculateDiscountedAmount(billDetails);
         assertEquals(130.0, result, 0.0);
     }
 
     @Test
     public void testEmployeeDiscountOne() {
-        List<Item> items = List.of(new Item("product", "electronics"));
-        double result = discountService.calculateDiscountedAmount(UserType.EMPLOYEE, false, 90.0, 3, items);
+        BillDetails billDetails = createBillDetails(UserType.EMPLOYEE, 90.0, 3, List.of(new Item("product", "electronics")));
+        double result = discountService.calculateDiscountedAmount(billDetails);
         assertEquals(63.0, result, 0.0);
     }
 
     @Test
     public void testAffiliateDiscount() {
-        List<Item> items = List.of(new Item("product", "electronics"));
-        double result = discountService.calculateDiscountedAmount(UserType.AFFILIATE, false, 200.0, 1, items);
+        BillDetails billDetails = createBillDetails(UserType.AFFILIATE, 200.0, 1, List.of(new Item("product", "electronics")));
+        double result = discountService.calculateDiscountedAmount(billDetails);
         assertEquals(170.0, result, 0.0);
     }
 
     @Test
     public void testCustomerDiscount() {
-        List<Item> items = List.of(new Item("product", "electronics"));
-        double result = discountService.calculateDiscountedAmount(UserType.CUSTOMER, false, 200.0, 3, items);
+        BillDetails billDetails = createBillDetails(UserType.CUSTOMER, 200.0, 3, List.of(new Item("product", "electronics")));
+        double result = discountService.calculateDiscountedAmount(billDetails);
         assertEquals(180.0, result, 0.0);
     }
 
     @Test
     public void testNoDiscountOnGroceries() {
-        List<Item> items = List.of(new Item("product", "groceries"));
-        double result = discountService.calculateDiscountedAmount(UserType.EMPLOYEE, true, 200.0, 3, items);
+        BillDetails billDetails = createBillDetails(UserType.EMPLOYEE, 200.0, 3, List.of(new Item("product", "groceries", 100.0)));
+        double result = discountService.calculateDiscountedAmount(billDetails);
         assertEquals(190.0, result, 0.0);
     }
 
     @Test
     public void testUserNotFoundException() {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("Apple", "groceries", 100.0));
+        List<Item> items = List.of(new Item("Apple", "electronics", 100.0)); // Use a non-grocery item
+        BillDetails billDetails = createBillDetails(UserType.CUSTOMER, 200.0, 1, items); // Tenure < 2
         UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> {
-            discountService.calculateDiscountedAmount(UserType.CUSTOMER, false, 200.0, 1, items);
+            discountService.calculateDiscountedAmount(billDetails);
         });
         assertEquals("User is not eligible for any discount", exception.getMessage());
     }
 
+
     @Test
     public void testInvalidItemsList_Null() {
+        BillDetails billDetails = createBillDetails(UserType.EMPLOYEE, 200.0, 3, null); // null items
+
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            discountService.calculateDiscountedAmount(UserType.EMPLOYEE, false, 200.0, 3, null);
+            discountService.calculateDiscountedAmount(billDetails);
         });
         assertEquals("Items list cannot be null or empty", exception.getMessage());
     }
 
     @Test
     public void testInvalidItemsList_Empty() {
+        BillDetails billDetails = createBillDetails(UserType.EMPLOYEE, 200.0, 3, List.of()); // empty items list
+
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            discountService.calculateDiscountedAmount(UserType.EMPLOYEE, false, 200.0, 3, new ArrayList<>());
+            discountService.calculateDiscountedAmount(billDetails);
         });
         assertEquals("Items list cannot be null or empty", exception.getMessage());
     }

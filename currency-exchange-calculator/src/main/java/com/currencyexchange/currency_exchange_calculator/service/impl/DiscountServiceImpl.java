@@ -1,21 +1,35 @@
 package com.currencyexchange.currency_exchange_calculator.service.impl;
 
 import com.currencyexchange.currency_exchange_calculator.exception.UserNotFoundException;
+import com.currencyexchange.currency_exchange_calculator.model.BillDetails;
 import com.currencyexchange.currency_exchange_calculator.model.Item;
 import com.currencyexchange.currency_exchange_calculator.model.UserType;
 import com.currencyexchange.currency_exchange_calculator.service.DiscountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class DiscountServiceImpl implements DiscountService {
-    public double calculateDiscountedAmount(UserType userType, boolean isGroceries, double billAmount, int tenure, List<Item> items) {
-        if (items == null || items.isEmpty()) {
+
+    private static final Logger logger = LoggerFactory.getLogger(DiscountServiceImpl.class);
+
+    public double calculateDiscountedAmount(BillDetails billDetails) {
+        if (billDetails.getItems() == null || billDetails.getItems().isEmpty()) {
             throw new IllegalArgumentException("Items list cannot be null or empty");
         }
+        double billAmount = billDetails.getTotalAmount();
+        UserType userType = billDetails.getUserType();
+        List<Item> items = billDetails.getItems();
+        boolean isGroceries = items.stream().anyMatch(item -> "groceries".equalsIgnoreCase(item.getCategory()));
+        int tenure = billDetails.getTenure();
             double discount = 0;
             double flatDiscount = 0;
+
+        logger.info("Calculating discount for userType: {}, billAmount: {}, isGroceries: {}, tenure: {}", userType, billAmount, isGroceries, tenure);
+
             if (!isGroceries) {
                 if (userType == UserType.EMPLOYEE) {
                     discount = 0.30;

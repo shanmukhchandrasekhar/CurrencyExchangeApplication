@@ -4,6 +4,8 @@ import com.currencyexchange.currency_exchange_calculator.model.BillDetails;
 import com.currencyexchange.currency_exchange_calculator.model.StatusResponse;
 import com.currencyexchange.currency_exchange_calculator.service.CurrencyConversionService;
 import com.currencyexchange.currency_exchange_calculator.service.DiscountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class BillController {
+    private static final Logger logger = LoggerFactory.getLogger(BillController.class);
 
     @Autowired
     private DiscountService discountService;
@@ -22,16 +25,14 @@ public class BillController {
 
     @PostMapping("/calculate")
     public ResponseEntity<StatusResponse> calculatePaybleAmount(@RequestBody BillDetails billDetails) {
+        logger.info("Received request to calculate payable amount for billDetails: {}", billDetails);
         try {
-            double totalBill = billDetails.getTotalAmount();
-            boolean isGroceries = billDetails.getItems().stream()
-                    .anyMatch(item -> "groceries".equalsIgnoreCase(item.getCategory()));
-            double discountedAmount = discountService.calculateDiscountedAmount(billDetails.getUserType(), isGroceries, totalBill, billDetails.getTenure(), billDetails.getItems());
+            double discountedAmount = discountService.calculateDiscountedAmount(billDetails);
             double payableAmount = currencyConversionService.converCurrency(billDetails.getOriginalCurrency(), billDetails.getTargetCurrency(), discountedAmount);
-
             StatusResponse response = new StatusResponse("SUCCESS", payableAmount, null);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException ex) {
+            logger.error("Error occurred while calculating payable amount", ex);
             return ResponseEntity.badRequest().body( new StatusResponse("ERROR", null, "Invalid request: " + ex.getMessage()));
         }
     }

@@ -22,6 +22,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BillController.class)
@@ -46,7 +47,7 @@ public class BillControllerTest {
         billDetails.setOriginalCurrency("USD");
         billDetails.setTargetCurrency("INR");
         billDetails.setItems(List.of(new Item("Apple", "groceries", 100.0)));
-        when(discountService.calculateDiscountedAmount(any(), anyBoolean(), anyDouble(), anyInt(), anyList()))
+        when(discountService.calculateDiscountedAmount(any()))
                 .thenReturn(450.0);
         when(currencyConversionService.converCurrency(anyString(), anyString(), anyDouble()))
                 .thenReturn(33000.0);
@@ -69,7 +70,7 @@ public class BillControllerTest {
         invalidBillDetails.setOriginalCurrency("USD");
         invalidBillDetails.setTargetCurrency("INR");
         invalidBillDetails.setItems(List.of(new Item("Apple", "groceries", 100.0)));
-        when(discountService.calculateDiscountedAmount(any(), anyBoolean(), anyDouble(), anyInt(), anyList()))
+        when(discountService.calculateDiscountedAmount(any()))
                 .thenThrow(new IllegalArgumentException("Invalid discount parameters"));
         mockMvc.perform(post("/api/calculate")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -80,7 +81,5 @@ public class BillControllerTest {
                 .andExpect(jsonPath("$.message").value("Invalid request: Invalid discount parameters"))
                 .andExpect(jsonPath("$.payableAmount").doesNotExist());
     }
-
-
 
 }
